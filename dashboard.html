@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kadal Kannu - Marine Safety Control Station</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f4c75 0%, #3282b8 50%, #bbe1fa 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Elements */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        /* Floating Wave Particles */
+        .wave-particle {
+            position: absolute;
+            background: rgba(187, 225, 250, 0.1);
+            border-radius: 50%;
+            animation: floatWave 15s infinite linear;
+        }
+
+        .wave-particle:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .wave-particle:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .wave-particle:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            left: 35%;
+            animation-delay: 4s;
+        }
+
+        .wave-particle:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            left: 50%;
+            animation-delay: 6s;
+        }
+
+        .wave-particle:nth-child(5) {
+            width: 70px;
+            height: 70px;
+            left: 65%;
+            animation-delay: 8s;
+        }
+
+        .wave-particle:nth-child(6) {
+            width: 90px;
+            height: 90px;
+            left: 80%;
+            animation-delay: 10s;
+        }
+
+        @keyframes floatWave {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Radar Sweep Animation */
+        .radar-sweep {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 50%;
+            top: 20%;
+            right: 10%;
+            animation: radarPulse 4s infinite ease-in-out;
+        }
+
+        .radar-sweep::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(to right, rgba(255, 215, 0, 0.8), transparent);
+            transform-origin: left center;
+            transform: translate(0, -50%) rotate(0deg);
+            animation: radarSweep 3s infinite linear;
+        }
+
+        .radar-sweep::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes radarPulse {
+            0%, 100% {
+                transform: scale(0.8);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes radarSweep {
+            0% {
+                transform: translate(0, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(0, -50%) rotate(360deg);
+            }
+        }
+
+        /* GPS Signal Waves */
+        .gps-signal {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 2px solid rgba(76, 175, 80, 0.2);
+            border-radius: 50%;
+            top: 60%;
+            left: 5%;
+            animation: gpsSignal 3s infinite ease-out;
+        }
+
+        .gps-signal::before {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: gpsSignal 3s infinite ease-out 1s;
+        }
+
+        .gps-signal::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 2px solid rgba(76, 175, 80, 0.4);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: gpsSignal 3s infinite ease-out 2s;
+        }
+
+        @keyframes gpsSignal {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Network Connection Lines */
+        .network-line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(3, 218, 198, 0.5), transparent);
+            animation: networkPulse 4s infinite ease-in-out;
+        }
+
+        .network-line:nth-child(1) {
+            width: 300px;
+            top: 25%;
+            left: 15%;
+            transform: rotate(45deg);
+            animation-delay: 0s;
+        }
+
+        .network-line:nth-child(2) {
+            width: 250px;
+            top: 45%;
+            right: 20%;
+            transform: rotate(-30deg);
+            animation-delay: 1.5s;
+        }
+
+        .network-line:nth-child(3) {
+            width: 200px;
+            top: 70%;
+            left: 30%;
+            transform: rotate(15deg);
+            animation-delay: 3s;
+        }
+
+        @keyframes networkPulse {
+            0%, 100% {
+                opacity: 0.2;
+                transform: scale(1) rotate(var(--rotation, 0deg));
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1) rotate(var(--rotation, 0deg));
+            }
+        }
+
+        /* Data Stream Animation */
+        .data-stream {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(255, 215, 0, 0.8), transparent);
+            animation: dataFlow 2s infinite ease-in-out;
+        }
+
+        .data-stream:nth-child(1) {
+            top: 20%;
+            left: 25%;
+            animation-delay: 0s;
+        }
+
+        .data-stream:nth-child(2) {
+            top: 40%;
+            right: 30%;
+            animation-delay: 0.7s;
+        }
+
+        .data-stream:nth-child(3) {
+            top: 60%;
+            left: 60%;
+            animation-delay: 1.4s;
+        }
+
+        @keyframes dataFlow {
+            0% {
+                transform: translateY(0) scaleY(1);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-200px) scaleY(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Maritime Grid Pattern */
+        .grid-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s infinite linear;
+        }
+
+        @keyframes gridMove {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        .header {
+            background: rgba(15, 76, 117, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border-bottom: 3px solid #ffd700;
+        }
+
+        .header h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #bbe1fa;
+            opacity: 0.9;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            margin-right: 1rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .connected-devices .card-icon {
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+        }
+
+        .system-management .card-icon {
+            background: linear-gradient(45deg, #FF9800, #FFC107);
+        }
+
+        .cybernetics-info .card-icon {
+            background: linear-gradient(45deg, #2196F3, #03DAC6);
+        }
+
+        .live-location .card-icon {
+            background: linear-gradient(45deg, #E91E63, #F44336);
+        }
+
+        .nearest-station .card-icon {
+            background: linear-gradient(45deg, #9C27B0, #673AB7);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        .status-online {
+            background: #4CAF50;
+        }
+
+        .status-alert {
+            background: #FF5722;
+        }
+
+        .status-warning {
+            background: #FF9800;
+        }
+
+        .status-offline {
+            background: #757575;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .boat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .boat-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            border-left: 4px solid #4CAF50;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .boat-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .boat-item.alert {
+            border-left-color: #FF5722;
+            animation: alertBlink 1s infinite;
+        }
+
+        .boat-item.warning {
+            border-left-color: #FF9800;
+        }
+
+        .boat-item.offline {
+            border-left-color: #757575;
+            opacity: 0.7;
+        }
+
+        @keyframes alertBlink {
+            0%, 50% { background: rgba(255, 87, 34, 0.2); }
+            51%, 100% { background: rgba(255, 87, 34, 0.4); }
+        }
+
+        .boat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .boat-id {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #ffd700;
+        }
+
+        .boat-status {
+            font-size: 0.9rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .coordinates {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #bbe1fa;
+            margin-top: 0.5rem;
+        }
+
+        .sos-alert {
+            background: linear-gradient(45deg, #FF5722, #FF1744);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: bold;
+            animation: sosAlert 0.8s infinite;
+            box-shadow: 0 4px 20px rgba(255, 87, 34, 0.5);
+        }
+
+        @keyframes sosAlert {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: #bbe1fa;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .map-placeholder {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #bbe1fa;
+            font-size: 1rem;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .map-placeholder:hover {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: #ffd700;
+        }
+
+        .station-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .station-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.8rem;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .station-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .station-name {
+            font-weight: bold;
+        }
+
+        .station-distance {
+            color: #4CAF50;
+            font-size: 0.9rem;
+        }
+
+        .timestamp {
+            font-size: 0.8rem;
+            color: #bbe1fa;
+            opacity: 0.8;
+            text-align: right;
+            margin: 1rem 2rem;
+        }
+
+        .controls-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 76, 117, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+        }
+
+        .control-button {
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .control-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .control-button.emergency {
+            background: linear-gradient(45deg, #FF5722, #FF1744);
+        }
+
+        .boat-details {
+            display: none;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .boat-details.show {
+            display: block;
+        }
+
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: linear-gradient(45deg, #FF5722, #FF1744);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #fff;
+            box-shadow: 0 4px 20px rgba(255, 87, 34, 0.5);
+            animation: slideInRight 0.5s ease;
+            z-index: 1001;
+            max-width: 300px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .hide-notification {
+            animation: slideOutRight 0.5s ease forwards;
+        }
+
+        @keyframes slideOutRight {
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+
+            .controls-panel {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-animation">
+        <!-- Moving Grid Pattern -->
+        <div class="grid-overlay"></div>
+        
+        <!-- Floating Wave Particles -->
+        <div class="wave-particle"></div>
+        <div class="wave-particle"></div>
+        <div class="wave-particle"></div>
+        <div class="wave-particle"></div>
+        <div class="wave-particle"></div>
+        <div class="wave-particle"></div>
+        
+        <!-- Radar Sweep -->
+        <div class="radar-sweep"></div>
+        
+        <!-- GPS Signal Waves -->
+        <div class="gps-signal"></div>
+        
+        <!-- Network Connection Lines -->
+        <div class="network-line" style="--rotation: 45deg;"></div>
+        <div class="network-line" style="--rotation: -30deg;"></div>
+        <div class="network-line" style="--rotation: 15deg;"></div>
+        
+        <!-- Data Stream Elements -->
+        <div class="data-stream"></div>
+        <div class="data-stream"></div>
+        <div class="data-stream"></div>
+    </div>
+
+    <!-- Control Panel -->
+    <div class="controls-panel">
+        <button class="control-button" onclick="toggleAutoRefresh()">📡 Auto Refresh</button>
+        <button class="control-button" onclick="refreshData()">🔄 Refresh Now</button>
+        <button class="control-button emergency" onclick="emergencyAlert()">🚨 Emergency</button>
+    </div>
+
+    <div class="header">
+        <h1>🌊 Kadal Kannu</h1>
+        <p class="subtitle">Marine Safety Control Station - <span id="connectionStatus">🟢 Online</span></p>
+    </div>
+
+    <div class="container">
+        <!-- Connected Devices -->
+        <div class="card connected-devices">
+            <div class="card-header">
+                <div class="card-icon">📡</div>
+                <h2 class="card-title">Connected Devices (<span id="deviceCount">0</span>)</h2>
+            </div>
+            <div class="boat-list" id="boatList">
+                <!-- Dynamic boat list will be populated here -->
+            </div>
+        </div>
+
+        <!-- System Management -->
+        <div class="card system-management">
+            <div class="card-header">
+                <div class="card-icon">⚙️</div>
+                <h2 class="card-title">System Management</h2>
+            </div>
+            <div class="info-grid">
+                <div class="info-item" onclick="showSystemDetails('active')">
+                    <div class="info-label">Active Boats</div>
+                    <div class="info-value" id="activeBoats">0</div>
+                </div>
+                <div class="info-item" onclick="showSystemDetails('alerts')">
+                    <div class="info-label">Alerts Today</div>
+                    <div class="info-value" id="alertsToday">0</div>
+                </div>
+                <div class="info-item" onclick="showSystemDetails('system')">
+                    <div class="info-label">System Status</div>
+                    <div class="info-value" id="systemStatus" style="color: #4CAF50;">ONLINE</div>
+                </div>
+                <div class="info-item" onclick="showSystemDetails('coverage')">
+                    <div class="info-label">Coverage</div>
+                    <div class="info-value" id="coverageRadius">25 km</div>
+                </div>
+            </div>
+            <div class="map-placeholder" onclick="openSystemMap()">
+                🗺️ System Coverage Map<br>
+                <small>ESP8266 Network Status</small>
+            </div>
+        </div>
+
+        <!-- Cybernetics Info -->
+        <div class="card cybernetics-info">
+            <div class="card-header">
+                <div class="card-icon">🔧</div>
+                <h2 class="card-title">Cybernetics Info</h2>
+            </div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Network Signal</div>
+                    <div class="info-value" id="networkSignal">-67 dBm</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Data Rate</div>
+                    <div class="info-value" id="dataRate">2.4 kb/s</div>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem;">
+                <h3 style="margin-bottom: 1rem; color: #ffd700;">Boat Registration Numbers:</h3>
+                <div id="registrationList" style="font-family: 'Courier New', monospace; line-height: 1.6;">
+                    <!-- Dynamic registration list -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Location -->
+        <div class="card live-location">
+            <div class="card-header">
+                <div class="card-icon">📍</div>
+                <h2 class="card-title">Live Coordinator</h2>
+            </div>
+            <div class="map-placeholder" onclick="openLiveMap()">
+                🌊 Live GPS Tracking<br>
+                <small>Real-time boat positions</small>
+            </div>
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 10px;">
+                <h4 style="color: #ffd700; margin-bottom: 0.5rem;">Last Known Positions:</h4>
+                <div id="positionsList" style="font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.5;">
+                    <!-- Dynamic position list -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Nearest Control Station -->
+        <div class="card nearest-station">
+            <div class="card-header">
+                <div class="card-icon">🏢</div>
+                <h2 class="card-title">Nearest Control Station</h2>
+            </div>
+            <div class="station-list" id="stationList">
+                <!-- Dynamic station list -->
+            </div>
+            <div id="emergencyStatus" style="margin-top: 1.5rem; padding: 1rem; background: rgba(76, 175, 80, 0.2); border-radius: 10px; border-left: 4px solid #4CAF50; display: none;">
+                <strong>🚨 Emergency Protocol Active</strong><br>
+                <small style="color: #bbe1fa;">Coast Guard notified</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="timestamp">
+        Last Updated: <span id="timestamp"></span> | ESP8266 Status: <span id="esp8266Status">🟢 Connected</span>
+    </div>
+
+    <!-- Include JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
