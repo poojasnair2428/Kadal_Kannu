@@ -56,7 +56,7 @@
 
         .wave-particle:nth-child(3) {
             width: 60px;
-            height: 60px;
+            60px;
             left: 35%;
             animation-delay: 4s;
         }
@@ -551,6 +551,59 @@
             color: #fff;
         }
 
+        /* Updated Map Container Styles */
+        .map-container {
+            border-radius: 15px;
+            height: 200px;
+            overflow: hidden;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .map-container:hover {
+            transform: scale(1.02);
+            border-color: #ffd700;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        .map-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                45deg, 
+                rgba(50, 130, 184, 0.3), 
+                rgba(187, 225, 250, 0.2)
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            text-align: center;
+        }
+
+        .map-container:hover .map-overlay {
+            opacity: 1;
+        }
+
         .map-placeholder {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 15px;
@@ -564,6 +617,7 @@
             margin-top: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-align: center;
         }
 
         .map-placeholder:hover {
@@ -693,6 +747,29 @@
             }
         }
 
+        /* Map Status Indicators */
+        .map-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .map-status.live {
+            background: rgba(76, 175, 80, 0.8);
+            animation: pulse 2s infinite;
+        }
+
+        .map-status.coverage {
+            background: rgba(255, 152, 0, 0.8);
+        }
+
         @media (max-width: 1024px) {
             .container {
                 grid-template-columns: 1fr 1fr;
@@ -718,6 +795,10 @@
                 top: auto;
                 right: auto;
                 margin: 1rem;
+            }
+
+            .map-container {
+                height: 150px;
             }
         }
     </style>
@@ -801,7 +882,22 @@
                     <div class="info-value" id="coverageRadius">25 km</div>
                 </div>
             </div>
-            <div class="map-placeholder" onclick="openSystemMap()">
+            
+            <!-- System Coverage Map with Image -->
+            <div class="map-container" onclick="openSystemMap()">
+                <img src="https://via.placeholder.com/400x200/3282b8/ffffff?text=System+Coverage+Map" 
+                     alt="System Coverage Map" 
+                     class="map-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="map-overlay">
+                    🗺️ Click to View Full Coverage<br>
+                    <small>ESP8266 Network Coverage</small>
+                </div>
+                <div class="map-status coverage">COVERAGE MAP</div>
+            </div>
+            
+            <!-- Fallback for when image fails to load -->
+            <div class="map-placeholder" onclick="openSystemMap()" style="display: none;">
                 🗺️ System Coverage Map<br>
                 <small>ESP8266 Network Status</small>
             </div>
@@ -837,39 +933,12 @@
                 <div class="card-icon">📍</div>
                 <h2 class="card-title">Live Coordinator</h2>
             </div>
-            <div class="map-placeholder" onclick="openLiveMap()">
-                🌊 Live GPS Tracking<br>
-                <small>Real-time boat positions</small>
-            </div>
-            <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 10px;">
-                <h4 style="color: #ffd700; margin-bottom: 0.5rem;">Last Known Positions:</h4>
-                <div id="positionsList" style="font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.5;">
-                    <!-- Dynamic position list -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Nearest Control Station -->
-        <div class="card nearest-station">
-            <div class="card-header">
-                <div class="card-icon">🏢</div>
-                <h2 class="card-title">Nearest Control Station</h2>
-            </div>
-            <div class="station-list" id="stationList">
-                <!-- Dynamic station list -->
-            </div>
-            <div id="emergencyStatus" style="margin-top: 1.5rem; padding: 1rem; background: rgba(76, 175, 80, 0.2); border-radius: 10px; border-left: 4px solid #4CAF50; display: none;">
-                <strong>🚨 Emergency Protocol Active</strong><br>
-                <small style="color: #bbe1fa;">Coast Guard notified</small>
-            </div>
-        </div>
-    </div>
-
-    <div class="timestamp">
-        Last Updated: <span id="timestamp"></span> | ESP8266 Status: <span id="esp8266Status">🟢 Connected</span>
-    </div>
-
-    <!-- Include JavaScript file -->
-    <script src="script.js"></script>
-</body>
-</html>
+            
+            <!-- Live GPS Tracking Map with Image -->
+            <div class="map-container" onclick="openLiveMap()">
+                <img src=" C:\Users\hp\OneDrive\Documents\Desktop\coding\KadalKannu\Map1.png" 
+                     alt="Live GPS Tracking Map" 
+                     class="map-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="map-overlay">
+                    🌊 Click for Live Tracking
